@@ -22,7 +22,7 @@ namespace ApiControllers
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:8080")
+                    builder.WithOrigins("http://localhost:8080", "http://172.18.53.209")
                                         .AllowAnyHeader()
                                         .AllowAnyMethod();
                 });
