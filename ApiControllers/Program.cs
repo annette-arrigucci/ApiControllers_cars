@@ -17,10 +17,10 @@ namespace ApiControllers
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration((context, builder) =>
             {
@@ -35,8 +35,7 @@ namespace ApiControllers
                        keyVaultEndpoint, keyVaultClient, new DefaultKeyVaultSecretManager());
                 }
             })
-            .UseStartup<Startup>()
-            .Build();
+            .UseStartup<Startup>();
 
         private static string GetKeyVaultEndpoint() => "https://annette-cog.vault.azure.net";
     }
