@@ -1,0 +1,8 @@
+C:\Users\Me\projects\ApiControllers_cars\ApiControllers
+--output-path=obj\Release\netcoreapp2.0\
+--application-name=ApiControllers
+--content-root=C:\Users\Me\projects\ApiControllers_cars\ApiControllers
+--file=C:\Users\Me\projects\ApiControllers_cars\ApiControllers\Views\Home\Index.cshtml
+--file=C:\Users\Me\projects\ApiControllers_cars\ApiControllers\Views\Shared\Error.cshtml
+--file=C:\Users\Me\projects\ApiControllers_cars\ApiControllers\Views\Shared\_Layout.cshtml
+--file=C:\Users\Me\projects\ApiControllers_cars\ApiControllers\Views\_ViewImports.cshtml

@@ -14,7 +14,6 @@ C:\Users\Me\projects\ApiControllers_cars\ApiControllers\bin\Debug\netcoreapp2.0\
 C:\Users\Me\projects\ApiControllers_cars\ApiControllers\bin\Debug\netcoreapp2.0\ApiControllers.runtimeconfig.dev.json
 C:\Users\Me\projects\ApiControllers_cars\ApiControllers\bin\Debug\netcoreapp2.0\ApiControllers.dll
 C:\Users\Me\projects\ApiControllers_cars\ApiControllers\bin\Debug\netcoreapp2.0\ApiControllers.pdb
-C:\Users\Me\projects\ApiControllers_cars\ApiControllers\obj\Debug\netcoreapp2.0\ApiControllers.csprojAssemblyReference.cache
 C:\Users\Me\projects\ApiControllers_cars\ApiControllers\obj\Debug\netcoreapp2.0\ApiControllers.csproj.CoreCompileInputs.cache
 C:\Users\Me\projects\ApiControllers_cars\ApiControllers\obj\Debug\netcoreapp2.0\ApiControllers.AssemblyInfoInputs.cache
 C:\Users\Me\projects\ApiControllers_cars\ApiControllers\obj\Debug\netcoreapp2.0\ApiControllers.AssemblyInfo.cs

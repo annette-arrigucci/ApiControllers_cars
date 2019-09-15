@@ -12,8 +12,18 @@
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
+  <ItemGroup Condition=" '$(Language)' == 'C#' AND '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Compile Include="$(NuGetPackageRoot)microsoft.aspnetcore.azurekeyvault.hostingstartup\2.0.2\contentFiles\cs\netstandard2.0\_AssembyInfo.KeyVaultHostingStartup.cs" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.azurekeyvault.hostingstartup\2.0.2\contentFiles\cs\netstandard2.0\_AssembyInfo.KeyVaultHostingStartup.cs')">
+      <NuGetPackageId>Microsoft.AspNetCore.AzureKeyVault.HostingStartup</NuGetPackageId>
+      <NuGetPackageVersion>2.0.2</NuGetPackageVersion>
+      <NuGetItemType>Compile</NuGetItemType>
+      <Private>False</Private>
+      <Link>_AssembyInfo.KeyVaultHostingStartup.cs</Link>
+    </Compile>
+  </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)microsoft.netcore.app\2.0.0\build\netcoreapp2.0\Microsoft.NETCore.App.props" Condition="Exists('$(NuGetPackageRoot)microsoft.netcore.app\2.0.0\build\netcoreapp2.0\Microsoft.NETCore.App.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.azurekeyvault.hostingstartup\2.0.2\build\Microsoft.AspNetCore.AzureKeyVault.HostingStartup.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.azurekeyvault.hostingstartup\2.0.2\build\Microsoft.AspNetCore.AzureKeyVault.HostingStartup.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgNewtonsoft_Json Condition=" '$(PkgNewtonsoft_Json)' == '' ">C:\Program Files\dotnet\sdk\NuGetFallbackFolder\newtonsoft.json\10.0.1</PkgNewtonsoft_Json>
