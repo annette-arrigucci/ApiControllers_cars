@@ -41,7 +41,8 @@ namespace ApiControllers
             }
             if (env.IsProduction())
             {
-                app.UseExceptionHandler("/Error");
+                //app.UseExceptionHandler("/Error");
+                app.UseDeveloperExceptionPage();
             }
             app.UseStatusCodePages();
             app.UseDeveloperExceptionPage();
