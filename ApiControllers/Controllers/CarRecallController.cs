@@ -78,7 +78,7 @@ namespace ApiControllers.Controllers
                     var result = await client.GetAsync(URL);
                     result.EnsureSuccessStatusCode();
                     dynamic json = await result.Content.ReadAsStringAsync();
-                     return Ok(json);
+                    return Ok(json);
                 }
                 catch (Exception e)
                 {
@@ -119,14 +119,10 @@ namespace ApiControllers.Controllers
                 {
                     response = await client.GetAsync("webapi/api/Recalls/vehicle/modelyear/" + year + "/make/"
                         + make + "/model/" + model + "?format=json");
-                    //content = await response.Content.ReadAsStringAsync();
-                    //strResp = JsonConvert.DeserializeObject<string>(content);
                     response.EnsureSuccessStatusCode();
                     content = await response.Content.ReadAsStringAsync();
-                    //wrap = JsonConvert.DeserializeObject<Wrapper>(content);
                     
                     JObject dataResult = JObject.Parse(content);
-                    //var recallItems = dataResult.value;
                     var recallSection = dataResult.GetValue("Results");
                     
                     if (recallSection.HasValues)
@@ -144,13 +140,6 @@ namespace ApiControllers.Controllers
                 }
             }
 
-            //carRecall.recallList = content;
-
-            //JObject jData = JObject.Parse(content);
-            //carRecall.recallList = jData.ToString(Newtonsoft.Json.Formatting.None);
-            //carRecall.recallList = recalls;
-
-            //if(jData["Count"].ToString() != "0")
             if(carRecall.recallList.Count() != 0)
             {
                 //if no content is returned, don't get the image
@@ -163,7 +152,6 @@ namespace ApiControllers.Controllers
                 string query = year + " " + make + " " + model;
                 string count = "1";
                 string offset = "0";
-                //string mkt = "en-us";
                 var ImgSearchEndPoint = "https://api.cognitive.microsoft.com/bing/v7.0/images/search?";
                 var result = await client2.GetAsync(string.Format("{0}q={1}&count={2}&offset={3}", ImgSearchEndPoint, WebUtility.UrlEncode(query), count, offset));
                 result.EnsureSuccessStatusCode();

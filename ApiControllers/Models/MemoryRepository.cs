@@ -11,6 +11,7 @@ namespace ApiControllers.Models
         {
             YearsList = new List<Year>
             {
+                new Year { year = "2019" },
                 new Year { year = "2018" },
                 new Year { year = "2017" },
                 new Year { year = "2016" },
@@ -44,7 +45,6 @@ namespace ApiControllers.Models
                 new Make { make = "chrysler"},
                 new Make { make = "daewoo"},
                 new Make { make = "dodge"},
-                new Make { make = "eagle"},
                 new Make { make = "ferrari"},
                 new Make { make = "fiat"},
                 new Make { make = "ford"},
@@ -82,8 +82,6 @@ namespace ApiControllers.Models
                 new Make { make = "volkswagen"},
                 new Make { make = "volvo"},
                 new Make { make = "maserati"},
-                new Make { make = "scion"},
-                new Make { make = "daimler"},
                 new Make { make = "tesla"},
             };
         }
