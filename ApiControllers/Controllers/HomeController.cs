@@ -5,9 +5,9 @@ namespace ApiControllers.Controllers
 {
     public class HomeController : Controller
     {
-        private IRepository repository { get; set; }
+        private IRepository Repository { get; set; }
 
-        public HomeController(IRepository repo) => repository = repo;
+        public HomeController(IRepository repo) => Repository = repo;
 
     }
 }

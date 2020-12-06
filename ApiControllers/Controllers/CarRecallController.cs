@@ -17,14 +17,17 @@ namespace ApiControllers.Controllers
     [Route("api/[controller]")]
     public class CarRecallController : Controller 
     {
+        private readonly IHttpClientFactory clientFactory;
+
         private IRepository repository;
 
         public IConfiguration Configuration { get; set; }
 
-        public CarRecallController(IRepository repo, IConfiguration config)
+        public CarRecallController(IRepository repo, IConfiguration config, IHttpClientFactory clientFac)
         {
             repository = repo;
             Configuration = config;
+            clientFactory = clientFac;
         }
 
         [HttpGet("years")]
@@ -37,7 +40,7 @@ namespace ApiControllers.Controllers
         public async Task<IEnumerable<Model>> GetModelsByMakeYear(string make, string year)
         {
             //need to get a list of models
-            using (var client = new HttpClient())
+            using (var client = clientFactory.CreateClient())
             {
                 try
                 {
@@ -58,7 +61,7 @@ namespace ApiControllers.Controllers
                 }
                 catch (Exception e)
                 {
-                    throw new Exception();
+                    throw new Exception(e.Message);
                 }
             }
         }
@@ -82,7 +85,7 @@ namespace ApiControllers.Controllers
                 }
                 catch (Exception e)
                 {
-                    throw new Exception();
+                    throw new Exception(e.Message);
                 }
             }
         }
@@ -96,8 +99,6 @@ namespace ApiControllers.Controllers
         {
             HttpResponseMessage response;
             string content = "";
-            var strResp = "";
-            var recalls = "";
             var wrap = new Wrapper();
             var carRecall = new CarRecall();
             //create a new 
@@ -136,7 +137,7 @@ namespace ApiControllers.Controllers
                 }
                 catch (Exception e)
                 {
-                    throw new Exception();
+                    throw new Exception(e.Message);
                 }
             }
 

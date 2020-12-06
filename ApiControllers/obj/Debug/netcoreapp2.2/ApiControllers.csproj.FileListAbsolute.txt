@@ -23,4 +23,3 @@ C:\Users\Me\projects\ApiControllers_cars\ApiControllers\obj\Debug\netcoreapp2.2\
 C:\Users\Me\projects\ApiControllers_cars\ApiControllers\obj\Debug\netcoreapp2.2\ApiControllers.dll
 C:\Users\Me\projects\ApiControllers_cars\ApiControllers\obj\Debug\netcoreapp2.2\ApiControllers.pdb
 C:\Users\Me\projects\ApiControllers_cars\ApiControllers\obj\Debug\netcoreapp2.2\ApiControllers.csproj.CopyComplete
-C:\Users\Me\projects\ApiControllers_cars\ApiControllers\obj\Debug\netcoreapp2.2\ApiControllers.csprojAssemblyReference.cache
