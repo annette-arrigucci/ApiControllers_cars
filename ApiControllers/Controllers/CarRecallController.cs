@@ -68,16 +68,10 @@ namespace ApiControllers.Controllers
 
         public async Task<dynamic> ProcessURLAsync(string URL, HttpClient client)
         {
-            HttpResponseMessage response;
-            var content = "";
-            
             using (client)
             {
                 try
                 {
-                    response = await client.GetAsync(URL);
-                    content = await response.Content.ReadAsStringAsync();
-
                     var result = await client.GetAsync(URL);
                     result.EnsureSuccessStatusCode();
                     dynamic json = await result.Content.ReadAsStringAsync();
