@@ -107,7 +107,7 @@ namespace ApiControllers.Controllers
             carRecall.recallList = new List<CarRecallItem>();
 
             //get the recalls info
-            using (var client = new HttpClient())
+            using (var client = clientFactory.CreateClient())
             {
                 client.BaseAddress = new Uri("https://one.nhtsa.gov/");
                 try
@@ -139,7 +139,7 @@ namespace ApiControllers.Controllers
             {
                 //if no content is returned, don't get the image
                 //get the API key from secrets file
-                var client2 = new HttpClient();
+                var client2 = clientFactory.CreateClient();
                 var accountKey = Configuration["Bing:ServiceAPIKey"];
                 // Request headers  
                 client2.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", accountKey);
