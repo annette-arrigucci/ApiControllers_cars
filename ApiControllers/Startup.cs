@@ -30,9 +30,7 @@ namespace ApiControllers
             });
 
             services.AddSingleton<IRepository, MemoryRepository>();
-
             services.AddHttpClient();
-
             services.AddMvc();
         }
 

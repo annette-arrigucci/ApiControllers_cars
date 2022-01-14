@@ -16,16 +16,18 @@ namespace ApiControllers.Controllers
     [Route("api/[controller]")]
     public class CarRecallController : Controller
     {
+        private readonly IHttpClientFactory clientFactory;
+
         private IRepository repository;
         private readonly IHttpClientFactory _httpClientFactory;
 
         public IConfiguration Configuration { get; set; }
 
-        public CarRecallController(IRepository repo, IConfiguration config, IHttpClientFactory httpClientFactory)
+        public CarRecallController(IRepository repo, IConfiguration config, IHttpClientFactory clientFac)
         {
-            _httpClientFactory = httpClientFactory;
             repository = repo;
             Configuration = config;
+            clientFactory = clientFac;
         }
 
         [HttpGet("years")]
@@ -38,7 +40,7 @@ namespace ApiControllers.Controllers
         public async Task<IEnumerable<Model>> GetModelsByMakeYear(string make, string year)
         {
             //need to get a list of models
-            using (var client = _httpClientFactory.CreateClient())
+            using (var client = clientFactory.CreateClient())
             {
                 try
                 {
@@ -58,23 +60,17 @@ namespace ApiControllers.Controllers
                 }
                 catch (Exception e)
                 {
-                    throw new Exception();
+                    throw new Exception(e.Message);
                 }
             }
         }
 
         public async Task<dynamic> ProcessURLAsync(string URL, HttpClient client)
         {
-            HttpResponseMessage response;
-            var content = "";
-            
             using (client)
             {
                 try
                 {
-                    response = await client.GetAsync(URL);
-                    content = await response.Content.ReadAsStringAsync();
-
                     var result = await client.GetAsync(URL);
                     result.EnsureSuccessStatusCode();
                     dynamic json = await result.Content.ReadAsStringAsync();
@@ -82,7 +78,7 @@ namespace ApiControllers.Controllers
                 }
                 catch (Exception e)
                 {
-                    throw new Exception();
+                    throw new Exception(e.Message);
                 }
             }
         }
@@ -96,8 +92,6 @@ namespace ApiControllers.Controllers
         {
             HttpResponseMessage response;
             string content = "";
-            var strResp = "";
-            var recalls = "";
             var wrap = new Wrapper();
             var carRecall = new CarRecall();
             //create a new model
@@ -112,7 +106,7 @@ namespace ApiControllers.Controllers
             carRecall.recallList = new List<CarRecallItem>();
 
             //get the recalls info
-            using (var client = _httpClientFactory.CreateClient())
+            using (var client = clientFactory.CreateClient())
             {
                 client.BaseAddress = new Uri("https://one.nhtsa.gov/");
                 try
@@ -149,7 +143,7 @@ namespace ApiControllers.Controllers
                 }
                 catch (Exception e)
                 {
-                    throw new Exception();
+                    throw new Exception(e.Message);
                 }
             }
 
@@ -157,7 +151,7 @@ namespace ApiControllers.Controllers
             {
                 //if no content is returned, don't get the image
                 //get the API key from secrets file
-                var client2 = _httpClientFactory.CreateClient();
+                var client2 = clientFactory.CreateClient();
                 var accountKey = Configuration["Bing:ServiceAPIKey"];
                 // Request headers  
                 client2.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", accountKey);
