@@ -1,0 +1,8 @@
+C:\Users\annet\projects\ApiControllers_cars\ApiControllers\obj\Debug\net6.0\ApiControllers.csproj.AssemblyReference.cache
+C:\Users\annet\projects\ApiControllers_cars\ApiControllers\obj\Debug\net6.0\ApiControllers.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\annet\projects\ApiControllers_cars\ApiControllers\obj\Debug\net6.0\ApiControllers.AssemblyInfoInputs.cache
+C:\Users\annet\projects\ApiControllers_cars\ApiControllers\obj\Debug\net6.0\ApiControllers.AssemblyInfo.cs
+C:\Users\annet\projects\ApiControllers_cars\ApiControllers\obj\Debug\net6.0\ApiControllers.csproj.CoreCompileInputs.cache
+C:\Users\annet\projects\ApiControllers_cars\ApiControllers\obj\Debug\net6.0\ApiControllers.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\annet\projects\ApiControllers_cars\ApiControllers\obj\Debug\net6.0\ApiControllers.RazorAssemblyInfo.cache
+C:\Users\annet\projects\ApiControllers_cars\ApiControllers\obj\Debug\net6.0\ApiControllers.RazorAssemblyInfo.cs

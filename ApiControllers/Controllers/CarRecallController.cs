@@ -1,28 +1,29 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using ApiControllers.Models;
-using Microsoft.AspNetCore.JsonPatch;
 using System.Net.Http;
 using System;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using System.Net;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
+using System.Dynamic;
 
 namespace ApiControllers.Controllers
 {
     [Route("api/[controller]")]
-    public class CarRecallController : Controller 
+    public class CarRecallController : Controller
     {
         private IRepository repository;
+        private readonly IHttpClientFactory _httpClientFactory;
 
         public IConfiguration Configuration { get; set; }
 
-        public CarRecallController(IRepository repo, IConfiguration config)
+        public CarRecallController(IRepository repo, IConfiguration config, IHttpClientFactory httpClientFactory)
         {
+            _httpClientFactory = httpClientFactory;
             repository = repo;
             Configuration = config;
         }
@@ -37,7 +38,7 @@ namespace ApiControllers.Controllers
         public async Task<IEnumerable<Model>> GetModelsByMakeYear(string make, string year)
         {
             //need to get a list of models
-            using (var client = new HttpClient())
+            using (var client = _httpClientFactory.CreateClient())
             {
                 try
                 {
@@ -45,13 +46,12 @@ namespace ApiControllers.Controllers
                     dynamic list1 = await download1;
 
                     var modelList = new List<Model>();
-                    JObject modelsData = JObject.Parse(list1.Value);
-                    JArray modelsArray = (JArray)modelsData["Results"];
+                    var modelsData = JsonSerializer.Deserialize<MakeSearchResult>(list1.Value);
+                    var modelsArray = modelsData.Results;
                     for (int i = 0; i < modelsArray.Count; i++)
                     {
                         var model = new Model();
-                        JObject jData = JObject.Parse(modelsArray[i].ToString());
-                        model.model = jData["Model_Name"].ToString();
+                        model.model = modelsArray[i].Model_Name;
                         modelList.Add(model);
                     }
                     return modelList;
@@ -100,7 +100,7 @@ namespace ApiControllers.Controllers
             var recalls = "";
             var wrap = new Wrapper();
             var carRecall = new CarRecall();
-            //create a new 
+            //create a new model
             var myModel = new CarInfoModel
             {
                 make = make,
@@ -112,7 +112,7 @@ namespace ApiControllers.Controllers
             carRecall.recallList = new List<CarRecallItem>();
 
             //get the recalls info
-            using (var client = new HttpClient())
+            using (var client = _httpClientFactory.CreateClient())
             {
                 client.BaseAddress = new Uri("https://one.nhtsa.gov/");
                 try
@@ -121,16 +121,29 @@ namespace ApiControllers.Controllers
                         + make + "/model/" + model + "?format=json");
                     response.EnsureSuccessStatusCode();
                     content = await response.Content.ReadAsStringAsync();
+
+                    //JObject dataResult = JObject.Parse(content);
+                    var dataResult = JsonSerializer.Deserialize<RecallObject>(content);
+                    var recallSection = dataResult.Results;
                     
-                    JObject dataResult = JObject.Parse(content);
-                    var recallSection = dataResult.GetValue("Results");
-                    
-                    if (recallSection.HasValues)
+                    if (recallSection.Count > 0)
                     {
-                        var recallItems = recallSection.ToObject<List<CarRecallItem>>();
-                        foreach (var item in recallItems)
+                        foreach (var item in recallSection)
                         {
-                            carRecall.recallList.Add(item);
+                            var recallItem = new CarRecallItem { 
+                                Manufacturer = item.Manufacturer,
+                                NHTSACampaignNumber = item.NHTSACampaignNumber,
+                                ReportReceivedDate = item.ReportReceivedDate.ToString(),
+                                Component = item.Component,
+                                Summary = item.Summary,
+                                Conequence = item.Conequence,
+                                Remedy = item.Remedy,
+                                Notes = item.Notes,
+                                ModelYear = item.ModelYear,
+                                Make = item.Make,
+                                Model = item.Model
+                            };
+                            carRecall.recallList.Add(recallItem);
                         }
                     }
                 }
@@ -144,7 +157,7 @@ namespace ApiControllers.Controllers
             {
                 //if no content is returned, don't get the image
                 //get the API key from secrets file
-                var client2 = new HttpClient();
+                var client2 = _httpClientFactory.CreateClient();
                 var accountKey = Configuration["Bing:ServiceAPIKey"];
                 // Request headers  
                 client2.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", accountKey);
@@ -156,9 +169,10 @@ namespace ApiControllers.Controllers
                 var result = await client2.GetAsync(string.Format("{0}q={1}&count={2}&offset={3}", ImgSearchEndPoint, WebUtility.UrlEncode(query), count, offset));
                 result.EnsureSuccessStatusCode();
                 var json = await result.Content.ReadAsStringAsync();
-                dynamic data = JObject.Parse(json);
-                var items = data.value;
-                carRecall.imageUrl = items[0].contentUrl;
+                var resObject = JsonDocument.Parse(json);
+                var rootObj = resObject.RootElement;
+                var items = rootObj.GetProperty("value");
+                carRecall.imageUrl = items[0].GetProperty("contentUrl").ToString();
             }
             else
             {

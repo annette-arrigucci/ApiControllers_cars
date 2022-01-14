@@ -9,5 +9,7 @@ namespace ApiControllers.Controllers
 
         public HomeController(IRepository repo) => repository = repo;
 
+        public ActionResult Index() => View();
+
     }
 }
