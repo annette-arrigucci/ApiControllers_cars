@@ -11,6 +11,8 @@ namespace ApiControllers.Models
         {
             YearsList = new List<Year>
             {
+                new Year { year = "2022" },
+                new Year { year = "2021" },
                 new Year { year = "2020" },
                 new Year { year = "2019" },
                 new Year { year = "2018" },
